@@ -27,10 +27,11 @@ COPY allowlist.json .
 COPY ops.json .
 COPY permissions.json .
 
-# Behavior va Resource Pack'larni ko'chirish
+# Behavior Pack'larni ko'chirish
 COPY behavior_packs/ ./behavior_packs/
-COPY resource_packs/ ./resource_packs/
-COPY worlds/ ./worlds/
+
+# Worlds va resource_packs papkalarini yaratish
+RUN mkdir -p ./worlds ./resource_packs
 
 # Port (UDP)
 EXPOSE 19132/udp
