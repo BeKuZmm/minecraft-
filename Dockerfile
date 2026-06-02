@@ -18,10 +18,6 @@ RUN apt-get update && apt-get install -y curl && \
 
 COPY behavior_packs/ /data/behavior_packs/
 
-# Entrypoint faylini topib wrapper qilish
-RUN ENTRY=$(which docker-entrypoint.sh 2>/dev/null || find / -name "docker-entrypoint.sh" 2>/dev/null | head -1) && \
-    printf "#!/bin/bash\nplayit &\nexec $ENTRY \"\$@\"\n" > /wrapper.sh && \
-    chmod +x /wrapper.sh && \
-    cat /wrapper.sh
-
-ENTRYPOINT ["/bin/bash", "/wrapper.sh"]
+# PlayIt ni start scripti orqali ishga tushirish
+RUN printf '#!/bin/bash\nplayit &\n' >> /etc/cont-init.d/99-playit && \
+    chmod +x /etc/cont-init.d/99-playit
