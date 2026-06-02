@@ -18,6 +18,4 @@ RUN apt-get update && apt-get install -y curl && \
 
 COPY behavior_packs/ /data/behavior_packs/
 
-# PlayIt ni start scripti orqali ishga tushirish
-RUN printf '#!/bin/bash\nplayit &\n' >> /etc/cont-init.d/99-playit && \
-    chmod +x /etc/cont-init.d/99-playit
+ENV PLAYIT_PRESTART="playit &"
