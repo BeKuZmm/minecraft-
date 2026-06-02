@@ -1,43 +1,16 @@
-FROM ubuntu:22.04
+FROM itzg/minecraft-bedrock-server:latest
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV LD_LIBRARY_PATH=.
-
-WORKDIR /server
-
-# Kerakli kutubxonalar
-RUN apt-get update && apt-get install -y \
-    curl \
-    unzip \
-    libcurl4 \
-    libssl3 \
-    screen \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
-
-# Bedrock Server yuklab olish
-RUN wget -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" \
-    -O bedrock.zip \
-    "https://minecraft.azureedge.net/bin-linux/bedrock-server-1.21.0.03.zip" && \
-    unzip bedrock.zip && \
-    rm bedrock.zip && \
-    chmod +x bedrock_server
-
-# Config fayllarini ko'chirish
-COPY server.properties .
-COPY allowlist.json .
-COPY ops.json .
-COPY permissions.json .
+ENV EULA=TRUE
+ENV GAMEMODE=survival
+ENV DIFFICULTY=normal
+ENV MAX_PLAYERS=20
+ENV SERVER_NAME=UZ Minecraft Server
+ENV LEVEL_NAME=BedrockWorld
+ENV VIEW_DISTANCE=8
+ENV TICK_DISTANCE=4
 
 # Behavior Pack'larni ko'chirish
-COPY behavior_packs/ ./behavior_packs/
+COPY behavior_packs/ /data/behavior_packs/
 
-# Worlds va resource_packs papkalarini yaratish
-RUN mkdir -p ./worlds ./resource_packs
-
-# Port (UDP)
 EXPOSE 19132/udp
 EXPOSE 19133/udp
-
-# Serverni ishga tushirish
-CMD ["./bedrock_server"]
