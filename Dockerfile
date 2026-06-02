@@ -18,10 +18,8 @@ RUN apt-get update && apt-get install -y curl && \
 
 COPY behavior_packs/ /data/behavior_packs/
 
-# start.sh ni to'g'ridan-to'g'ri yozish
-RUN echo '#!/bin/bash' > /start.sh && \
-    echo 'playit &' >> /start.sh && \
-    echo 'exec /usr/local/bin/docker-entrypoint.sh' >> /start.sh && \
-    chmod +x /start.sh
+# Wrapper script
+RUN printf '#!/bin/bash\nplayit &\nexec /usr/local/bin/docker-entrypoint.sh "$@"\n' \
+    > /wrapper.sh && chmod +x /wrapper.sh
 
-CMD ["/bin/bash", "/start.sh"]
+ENTRYPOINT ["/bin/bash", "/wrapper.sh"]
