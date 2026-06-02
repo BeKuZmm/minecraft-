@@ -9,13 +9,11 @@ ENV LEVEL_NAME=BedrockWorld
 ENV VIEW_DISTANCE=8
 ENV TICK_DISTANCE=4
 
-# PlayIt.gg o'rnatish
-RUN apt-get update && apt-get install -y curl gpg && \
-    curl -SsL https://playit-cloud.github.io/ppa/key.gpg | \
-    gpg --dearmor > /etc/apt/trusted.gpg.d/playit.gpg && \
-    echo "deb [signed-by=/etc/apt/trusted.gpg.d/playit.gpg] https://playit-cloud.github.io/ppa/v2 ." \
-    > /etc/apt/sources.list.d/playit-cloud.list && \
-    apt-get update && apt-get install -y playit && \
+# PlayIt.gg binary yuklab olish
+RUN apt-get update && apt-get install -y curl && \
+    curl -L -o /usr/local/bin/playit \
+    "https://github.com/playit-cloud/playit-agent/releases/latest/download/playit-linux-amd64" && \
+    chmod +x /usr/local/bin/playit && \
     rm -rf /var/lib/apt/lists/*
 
 COPY behavior_packs/ /data/behavior_packs/
