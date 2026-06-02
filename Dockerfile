@@ -17,10 +17,11 @@ RUN apt-get update && apt-get install -y curl && \
     rm -rf /var/lib/apt/lists/*
 
 COPY behavior_packs/ /data/behavior_packs/
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
 
-EXPOSE 19132/udp
-EXPOSE 19133/udp
+# start.sh ni to'g'ridan-to'g'ri yozish
+RUN echo '#!/bin/bash' > /start.sh && \
+    echo 'playit &' >> /start.sh && \
+    echo 'exec /usr/local/bin/docker-entrypoint.sh' >> /start.sh && \
+    chmod +x /start.sh
 
-CMD ["/start.sh"]
+CMD ["/bin/bash", "/start.sh"]
