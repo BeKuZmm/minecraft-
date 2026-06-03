@@ -1,21 +1,14 @@
-FROM itzg/minecraft-bedrock-server:latest
+FROM itzg/minecraft-server:latest
 
 ENV EULA=TRUE
+ENV TYPE=PAPER
+ENV VERSION=1.16.5
 ENV GAMEMODE=survival
 ENV DIFFICULTY=normal
 ENV MAX_PLAYERS=20
 ENV SERVER_NAME=UZ-Minecraft-Server
-ENV LEVEL_NAME=BedrockWorld
+ENV LEVEL=BedrockWorld
 ENV VIEW_DISTANCE=8
-ENV TICK_DISTANCE=4
+ENV ONLINE_MODE=FALSE
 
-# PlayIt.gg binary yuklab olish
-RUN apt-get update && apt-get install -y curl && \
-    curl -L -o /usr/local/bin/playit \
-    "https://github.com/playit-cloud/playit-agent/releases/latest/download/playit-linux-amd64" && \
-    chmod +x /usr/local/bin/playit && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY behavior_packs/ /data/behavior_packs/
-
-ENV PLAYIT_PRESTART="playit &"
+EXPOSE 25565
